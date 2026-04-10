@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "228770193758",
+    "project_id": "mobile-final-project-483a5",
+    "storage_bucket": "mobile-final-project-483a5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228770193758:android:4eb785b7828c362d5f2fcf",
+        "android_client_info": {
+          "package_name": "com.phishing.simulation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOhHPoEX76HihCz6uinLgo0TUUX2u4vE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
