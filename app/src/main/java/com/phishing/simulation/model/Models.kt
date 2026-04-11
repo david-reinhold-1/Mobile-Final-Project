@@ -31,7 +31,11 @@ data class User(
 
     @get:PropertyName("fcmToken")
     @set:PropertyName("fcmToken")
-    var fcmToken: String = ""
+    var fcmToken: String = "",
+
+    @get:PropertyName("createdAt")
+    @set:PropertyName("createdAt")
+    var createdAt: Timestamp = Timestamp.now()
 )
 
 /**
