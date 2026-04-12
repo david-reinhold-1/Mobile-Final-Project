@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">PhishingSimulationApp</string>
+
+    <!-- Form hints -->
+    <string name="hint_email">Email Address</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Full Name</string>
+    <string name="hint_department">Department</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+
+    <!-- Buttons -->
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Create Account</string>
+    <string name="btn_sign_out">Sign Out</string>
+
+    <!-- Navigation links -->
+    <string name="go_to_register">Don\'t have an account? Register</string>
+    <string name="go_to_login">Already have an account? Login</string>
+
+    <!-- Screen labels -->
+    <string name="label_create_account">Create Account</string>
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="admin_dashboard_subtitle">Manage campaigns and view analytics</string>
+    <string name="user_dashboard">Welcome</string>
+    <string name="user_dashboard_subtitle">Your phishing awareness portal</string>
 </resources>
