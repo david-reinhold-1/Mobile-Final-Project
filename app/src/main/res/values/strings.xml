@@ -23,4 +23,26 @@
     <string name="admin_dashboard_subtitle">Manage campaigns and view analytics</string>
     <string name="user_dashboard">Welcome</string>
     <string name="user_dashboard_subtitle">Your phishing awareness portal</string>
+
+    <!-- Campaign list -->
+    <string name="no_campaigns">No campaigns yet.\nTap + to create one.</string>
+
+    <!-- Campaign creation dialog -->
+    <string name="dialog_title_new_campaign">New Campaign</string>
+    <string name="hint_campaign_title">Campaign Title</string>
+    <string name="hint_campaign_body">Email Body / Description</string>
+    <string name="hint_campaign_url">Phishing URL (https://…)</string>
+    <string name="btn_create_campaign">Create</string>
+    <string name="campaign_created_success">Campaign created successfully!</string>
+
+    <!-- Campaign deletion -->
+    <string name="delete_campaign_title">Delete Campaign</string>
+    <string name="delete_campaign_message">Delete \"%s\"? This cannot be undone.</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="campaign_deleted_success">Campaign deleted.</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_new_campaign">Create new campaign</string>
+    <string name="cd_delete_campaign">Delete campaign</string>
 </resources>
