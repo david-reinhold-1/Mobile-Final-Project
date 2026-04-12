@@ -57,6 +57,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
+    
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
