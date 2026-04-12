@@ -8,6 +8,9 @@ import com.google.firebase.firestore.Query
 import com.phishing.simulation.model.Campaign
 import com.phishing.simulation.model.Detection
 import com.phishing.simulation.model.User
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
 // ---------------------------------------------------------------------------
@@ -218,6 +221,35 @@ class FirebaseRepository {
             Log.e(TAG, "deleteCampaign failed for id=$campaignId", e)
             Result.Failure(e)
         }
+    }
+
+    // -----------------------------------------------------------------------
+    // REAL-TIME LISTENER
+    // -----------------------------------------------------------------------
+
+    /**
+     * Returns a [Flow] that emits a fresh [Result<List<Campaign>>] every time
+     * the "Campaigns" collection changes in Firestore (real-time updates).
+     *
+     * Collect this flow inside a `repeatOnLifecycle(STARTED)` block so the
+     * Firestore listener is automatically removed when the UI is not visible.
+     *
+     * Campaigns are ordered by [CreatedAt] descending (newest first).
+     */
+    fun getAllCampaigns(): Flow<Result<List<Campaign>>> = callbackFlow {
+        val registration = campaignsCol
+            .orderBy("CreatedAt", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(TAG, "getAllCampaigns listener error", error)
+                    trySend(Result.Failure(error))
+                    return@addSnapshotListener
+                }
+                val campaigns = snapshot?.toObjects(Campaign::class.java) ?: emptyList()
+                trySend(Result.Success(campaigns))
+            }
+        // Remove the listener when the Flow collector is cancelled
+        awaitClose { registration.remove() }
     }
 
     // -----------------------------------------------------------------------
