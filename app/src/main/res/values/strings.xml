@@ -70,6 +70,7 @@
     <string name="click_through_rate">Click-Through Rate</string>
     <string name="detections_over_time">Detections Over Time</string>
     <string name="campaign_performance">Campaign Performance</string>
+    <string name="detection_locations">Detection Locations</string>
     <string name="no_data_available">No data available yet</string>
     <string name="loading_statistics">Loading statistics…</string>
 </resources>

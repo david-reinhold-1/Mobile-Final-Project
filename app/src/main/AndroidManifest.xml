@@ -15,6 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PhishingSimulationApp">
+        
+        <!-- Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBJE60ICmOfj9E-jijP1Iil_O3Vd4WLTVI" />
+        
         <!-- Auth screens -->
         <activity
             android:name=".LoginActivity"

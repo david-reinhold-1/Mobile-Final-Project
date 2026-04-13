@@ -12,6 +12,14 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.phishing.simulation.adapter.DetectionAdapter
 import com.phishing.simulation.adapter.DetectionItem
 import com.phishing.simulation.databinding.ActivityStatisticsBinding
@@ -23,11 +31,14 @@ import com.phishing.simulation.repository.Result
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class StatisticsActivity : AppCompatActivity() {
+class StatisticsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityStatisticsBinding
     private val repository = FirebaseRepository()
     private lateinit var detectionAdapter: DetectionAdapter
+    private var googleMap: GoogleMap? = null
+    private var detectionsForMap: List<Detection> = emptyList()
+    private var campaignsMap: Map<String, Campaign> = emptyMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +47,28 @@ class StatisticsActivity : AppCompatActivity() {
 
         setupToolbar()
         setupRecyclerView()
+        setupMap()
         loadStatistics()
+    }
+
+    private fun setupMap() {
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.mapFragment) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+        
+        googleMap?.uiSettings?.apply {
+            isZoomControlsEnabled = true
+            isZoomGesturesEnabled = true
+            isScrollGesturesEnabled = true
+            isTiltGesturesEnabled = false
+            isRotateGesturesEnabled = false
+        }
+        
+        displayDetectionsOnMap()
     }
 
     private fun setupToolbar() {
@@ -68,12 +100,16 @@ class StatisticsActivity : AppCompatActivity() {
                     val campaigns = campaignsResult.data.items
                     val detections = detectionsResult.data
 
+                    campaignsMap = campaigns.associateBy { it.id }
+                    detectionsForMap = detections
+
                     if (campaigns.isEmpty() && detections.isEmpty()) {
                         showNoData()
                     } else {
                         displayStatistics(campaigns, detections)
                         displayChart(campaigns, detections)
                         displayDetections(campaigns, detections)
+                        displayDetectionsOnMap()
                     }
                 } else {
                     handleError(campaignsResult, detectionsResult)
@@ -198,5 +234,65 @@ class StatisticsActivity : AppCompatActivity() {
 
     private fun setLoading(loading: Boolean) {
         binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+    }
+
+    private fun displayDetectionsOnMap() {
+        val map = googleMap ?: return
+        
+        if (detectionsForMap.isEmpty()) {
+            binding.cardMap.visibility = View.GONE
+            return
+        }
+
+        // Filter detections with valid locations (not 0,0)
+        val validDetections = detectionsForMap.filter { detection ->
+            detection.location.latitude != 0.0 || detection.location.longitude != 0.0
+        }
+
+        if (validDetections.isEmpty()) {
+            binding.cardMap.visibility = View.GONE
+            return
+        }
+
+        binding.cardMap.visibility = View.VISIBLE
+        map.clear()
+
+        val boundsBuilder = LatLngBounds.Builder()
+        var hasValidMarkers = false
+
+        validDetections.forEach { detection ->
+            val latLng = LatLng(detection.location.latitude, detection.location.longitude)
+            
+            val campaign = campaignsMap[detection.campaignId]
+            val title = campaign?.title ?: "Unknown Campaign"
+            
+            map.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title(title)
+                    .snippet("Detection recorded")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            )
+            
+            boundsBuilder.include(latLng)
+            hasValidMarkers = true
+        }
+
+        if (hasValidMarkers) {
+            try {
+                val bounds = boundsBuilder.build()
+                val padding = 100
+                map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding))
+            } catch (e: Exception) {
+                // If only one marker or bounds are invalid, just zoom to first location
+                if (validDetections.isNotEmpty()) {
+                    val firstLocation = LatLng(
+                        validDetections.first().location.latitude,
+                        validDetections.first().location.longitude
+                    )
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 12f))
+                }
+            }
+        }
     }
 }
