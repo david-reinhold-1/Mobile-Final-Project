@@ -7,14 +7,29 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:elevation="4dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/statistics"
-            app:navigationIcon="?attr/homeAsUpIndicator" />
+            android:layout_height="80dp"
+            android:paddingTop="24dp"
+            app:titleTextColor="?attr/colorOnPrimary"
+            app:title="@string/statistics">
+            
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBack"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="start"
+                app:icon="@android:drawable/ic_menu_revert"
+                app:iconTint="?attr/colorOnPrimary"
+                app:iconSize="28dp"
+                android:contentDescription="Back" />
+        </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
