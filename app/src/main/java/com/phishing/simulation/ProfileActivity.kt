@@ -31,8 +31,11 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.setNavigationOnClickListener { finish() }
+        
+        val btnBack = binding.toolbar.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnBack)
+        btnBack?.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setupDepartmentDropdown() {
