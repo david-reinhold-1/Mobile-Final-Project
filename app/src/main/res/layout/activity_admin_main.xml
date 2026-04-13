@@ -8,12 +8,16 @@
     <!-- Top App Bar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:elevation="4dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="80dp"
+            android:paddingTop="24dp"
+            app:titleTextColor="?attr/colorOnPrimary"
             app:title="@string/admin_dashboard">
             
             <LinearLayout
@@ -21,27 +25,29 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
                 
-                <ImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnStatistics"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/statistics"
-                    android:src="@android:drawable/ic_menu_report_image"
-                    android:padding="12dp" />
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:icon="@android:drawable/ic_menu_report_image"
+                    app:iconTint="?attr/colorOnPrimary"
+                    app:iconSize="28dp"
+                    android:contentDescription="@string/statistics" />
                 
-                <ImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSignOut"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/btn_sign_out"
-                    android:src="@android:drawable/ic_lock_power_off"
-                    android:padding="12dp" />
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:icon="@android:drawable/ic_lock_power_off"
+                    app:iconTint="?attr/colorOnPrimary"
+                    app:iconSize="28dp"
+                    android:contentDescription="@string/btn_sign_out" />
             </LinearLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -83,6 +89,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
+            android:paddingTop="12dp"
             android:paddingBottom="88dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

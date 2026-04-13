@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -22,6 +23,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.GeoPoint
+import com.phishing.simulation.adapter.UserCampaignAdapter
 import com.phishing.simulation.auth.AuthManager
 import com.phishing.simulation.databinding.ActivityUserMainBinding
 import com.phishing.simulation.model.Campaign
@@ -37,9 +39,10 @@ class UserMainActivity : AppCompatActivity() {
     private val authManager = AuthManager()
     private val repository = FirebaseRepository()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var adapter: UserCampaignAdapter
     
-    private var currentCampaign: Campaign? = null
-    private var isDetectionRecorded = false
+    private var selectedCampaign: Campaign? = null
+    private val clickedCampaigns = mutableSetOf<String>()
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -74,15 +77,13 @@ class UserMainActivity : AppCompatActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         setupToolbar()
+        setupRecyclerView()
         loadCampaigns()
-        
-        binding.btnOpenLink.setOnClickListener { handlePhishingLinkClick() }
     }
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         
-        // Set up sign out button
         val btnSignOut = binding.toolbar.findViewById<ImageButton>(R.id.btnSignOut)
         btnSignOut?.setOnClickListener {
             authManager.signOut()
@@ -91,6 +92,14 @@ class UserMainActivity : AppCompatActivity() {
             })
             finish()
         }
+    }
+
+    private fun setupRecyclerView() {
+        adapter = UserCampaignAdapter { campaign ->
+            handleCampaignClick(campaign)
+        }
+        binding.rvCampaigns.layoutManager = LinearLayoutManager(this)
+        binding.rvCampaigns.adapter = adapter
     }
 
     private fun loadCampaigns() {
@@ -102,8 +111,9 @@ class UserMainActivity : AppCompatActivity() {
                     when (result) {
                         is Result.Success -> {
                             if (result.data.isNotEmpty()) {
-                                currentCampaign = result.data.first()
-                                displayCampaign(currentCampaign!!)
+                                adapter.submitList(result.data)
+                                binding.rvCampaigns.visibility = View.VISIBLE
+                                binding.tvNoCampaigns.visibility = View.GONE
                             } else {
                                 showNoCampaigns()
                             }
@@ -122,26 +132,15 @@ class UserMainActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayCampaign(campaign: Campaign) {
-        binding.tvNoCampaigns.visibility = View.GONE
-        binding.cardCampaign.visibility = View.VISIBLE
-        
-        binding.tvCampaignTitle.text = campaign.title
-        binding.tvCampaignDescription.text = campaign.description
-    }
-
     private fun showNoCampaigns() {
-        binding.cardCampaign.visibility = View.GONE
+        binding.rvCampaigns.visibility = View.GONE
         binding.tvNoCampaigns.visibility = View.VISIBLE
     }
 
-    private fun handlePhishingLinkClick() {
-        if (currentCampaign == null) {
-            Toast.makeText(this, "No campaign available", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        if (isDetectionRecorded) {
+    private fun handleCampaignClick(campaign: Campaign) {
+        selectedCampaign = campaign
+        
+        if (clickedCampaigns.contains(campaign.id)) {
             openPhishingLink()
             return
         }
@@ -224,7 +223,7 @@ class UserMainActivity : AppCompatActivity() {
     }
 
     private suspend fun saveDetection(location: GeoPoint) {
-        val campaign = currentCampaign ?: return
+        val campaign = selectedCampaign ?: return
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         val detection = Detection(
@@ -236,7 +235,7 @@ class UserMainActivity : AppCompatActivity() {
 
         when (val result = repository.saveDetection(detection)) {
             is Result.Success -> {
-                isDetectionRecorded = true
+                clickedCampaigns.add(campaign.id)
                 Log.d(TAG, "Detection saved successfully with ID: ${result.data}")
                 openPhishingLink()
             }
@@ -252,7 +251,7 @@ class UserMainActivity : AppCompatActivity() {
     }
 
     private fun openPhishingLink() {
-        val campaign = currentCampaign ?: return
+        val campaign = selectedCampaign ?: return
         
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(campaign.landingPageUrl))

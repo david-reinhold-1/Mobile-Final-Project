@@ -3,9 +3,9 @@ package com.phishing.simulation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -49,8 +49,8 @@ class AdminMainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         
         // Set up toolbar buttons
-        val btnStatistics = binding.toolbar.findViewById<ImageButton>(R.id.btnStatistics)
-        val btnSignOut = binding.toolbar.findViewById<ImageButton>(R.id.btnSignOut)
+        val btnStatistics = binding.toolbar.findViewById<MaterialButton>(R.id.btnStatistics)
+        val btnSignOut = binding.toolbar.findViewById<MaterialButton>(R.id.btnSignOut)
         
         btnStatistics?.setOnClickListener {
             startActivity(Intent(this, StatisticsActivity::class.java))

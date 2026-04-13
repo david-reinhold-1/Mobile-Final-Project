@@ -7,24 +7,29 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:elevation="4dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="80dp"
+            android:paddingTop="24dp"
+            app:titleTextColor="?attr/colorOnPrimary"
             app:title="@string/user_dashboard">
             
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignOut"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/btn_sign_out"
-                android:src="@android:drawable/ic_lock_power_off"
-                android:padding="12dp" />
+                app:icon="@android:drawable/ic_lock_power_off"
+                app:iconTint="?attr/colorOnPrimary"
+                app:iconSize="28dp"
+                android:contentDescription="@string/btn_sign_out" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -58,84 +63,12 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:visibility="gone" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardCampaign"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCampaigns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="8dp"
-                android:backgroundTint="?attr/colorSurfaceContainerHigh"
-                app:contentPadding="24dp"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <!-- Badge -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp"
-                        android:backgroundTint="?attr/colorErrorContainer">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="12dp"
-                            android:paddingVertical="6dp"
-                            android:text="@string/new_message"
-                            android:textAppearance="?attr/textAppearanceLabelLarge"
-                            android:textColor="?attr/colorOnErrorContainer"
-                            android:textStyle="bold" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Campaign Title -->
-                    <TextView
-                        android:id="@+id/tvCampaignTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="Campaign Title"
-                        android:textAppearance="?attr/textAppearanceHeadlineMedium"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textStyle="bold" />
-
-                    <!-- Campaign Description -->
-                    <TextView
-                        android:id="@+id/tvCampaignDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        android:text="Campaign description goes here..."
-                        android:textAppearance="?attr/textAppearanceBodyLarge"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:lineSpacingExtra="4dp" />
-
-                    <!-- Divider -->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="16dp"
-                        android:background="?attr/colorOutlineVariant" />
-
-                    <!-- Action Button -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnOpenLink"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:text="@string/btn_view_details"
-                        android:textSize="16sp"
-                        app:icon="@android:drawable/ic_menu_view"
-                        app:iconGravity="start"
-                        app:iconSize="24dp"
-                        app:cornerRadius="12dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:clipToPadding="false"
+                android:visibility="gone" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
