@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
+import com.google.android.material.button.MaterialButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -56,7 +56,7 @@ class UserMainActivity : AppCompatActivity() {
             }
             else -> {
                 Toast.makeText(
-                    this,
+                    this@UserMainActivity,
                     getString(R.string.location_permission_denied),
                     Toast.LENGTH_LONG
                 ).show()
@@ -84,7 +84,13 @@ class UserMainActivity : AppCompatActivity() {
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         
-        val btnSignOut = binding.toolbar.findViewById<ImageButton>(R.id.btnSignOut)
+        val btnProfile = binding.toolbar.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnProfile)
+        val btnSignOut = binding.toolbar.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnSignOut)
+        
+        btnProfile?.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
+        
         btnSignOut?.setOnClickListener {
             authManager.signOut()
             startActivity(Intent(this, LoginActivity::class.java).apply {
@@ -148,7 +154,7 @@ class UserMainActivity : AppCompatActivity() {
                 is Result.Failure -> {
                     setLoading(false)
                     Toast.makeText(
-                        this,
+                        this@UserMainActivity,
                         "Error loading user profile: ${userResult.exception.message}",
                         Toast.LENGTH_LONG
                     ).show()
@@ -267,7 +273,7 @@ class UserMainActivity : AppCompatActivity() {
             }
             is Result.Failure -> {
                 Toast.makeText(
-                    this,
+                    this@UserMainActivity,
                     getString(R.string.detection_failed),
                     Toast.LENGTH_LONG
                 ).show()
@@ -278,13 +284,19 @@ class UserMainActivity : AppCompatActivity() {
 
     private fun openPhishingLink() {
         val campaign = selectedCampaign ?: return
+        val url = campaign.landingPageUrl
+
+        if (url.isBlank()) {
+            Toast.makeText(this@UserMainActivity, "Campaign URL is empty", Toast.LENGTH_SHORT).show()
+            return
+        }
         
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(campaign.landingPageUrl))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
         } catch (e: Exception) {
             Toast.makeText(
-                this,
+                this@UserMainActivity,
                 "Failed to open link: ${e.message}",
                 Toast.LENGTH_LONG
             ).show()

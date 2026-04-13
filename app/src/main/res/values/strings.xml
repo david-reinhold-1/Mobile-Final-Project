@@ -53,6 +53,10 @@
     <string name="new_message">NEW MESSAGE</string>
     <string name="btn_view_details">View Details</string>
     <string name="tap_to_view">Tap to view</string>
+    <string name="my_profile">My Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="btn_save_changes">Save Changes</string>
+    <string name="profile_updated_success">Profile updated successfully!</string>
     <string name="location_permission_required">Location permission is required to track security awareness.</string>
     <string name="location_permission_denied">Location permission denied. Detection will be recorded without location.</string>
     <string name="detection_recorded">Detection recorded successfully!</string>

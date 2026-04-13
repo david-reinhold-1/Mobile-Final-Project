@@ -45,6 +45,16 @@
             android:exported="false"
             android:parentActivityName=".AdminMainActivity" />
 
+        <activity
+            android:name=".DataViewerActivity"
+            android:exported="false"
+            android:parentActivityName=".AdminMainActivity" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:parentActivityName=".UserMainActivity" />
+
         <!-- Legacy entry point (kept for reference) -->
         <activity
             android:name=".MainActivity"

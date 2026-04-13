@@ -20,6 +20,18 @@
             app:title="@string/user_dashboard">
             
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProfile"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="4dp"
+                app:icon="@android:drawable/ic_menu_myplaces"
+                app:iconTint="?attr/colorOnPrimary"
+                app:iconSize="28dp"
+                android:contentDescription="@string/my_profile" />
+                
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignOut"
                 style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="56dp"

@@ -21,8 +21,16 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupDepartmentDropdown()
+        
         binding.btnRegister.setOnClickListener { attemptRegister() }
         binding.tvGoToLogin.setOnClickListener { finish() }
+    }
+
+    private fun setupDepartmentDropdown() {
+        val departments = arrayOf("IT", "HR", "Finance", "Marketing", "Sales", "Operations", "Engineering")
+        val adapter = android.widget.ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, departments)
+        binding.actvDepartment.setAdapter(adapter)
     }
 
     // -----------------------------------------------------------------------
@@ -32,7 +40,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun attemptRegister() {
         val name = binding.etName.text.toString().trim()
         val email = binding.etEmail.text.toString().trim()
-        val department = binding.etDepartment.text.toString().trim()
+        val department = binding.actvDepartment.text.toString().trim()
         val password = binding.etPassword.text.toString()
         val confirmPassword = binding.etConfirmPassword.text.toString()
 
