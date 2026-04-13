@@ -126,6 +126,8 @@ class AdminMainActivity : AppCompatActivity() {
         val dialog = AlertDialog.Builder(this)
             .setView(dialogBinding.root)
             .create()
+        
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         // Setup department dropdown
         val departments = arrayOf("All", "IT", "HR", "Finance", "Marketing", "Sales", "Operations", "Engineering")
