@@ -3,6 +3,7 @@ package com.phishing.simulation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -38,15 +39,6 @@ class AdminMainActivity : AppCompatActivity() {
         observeCampaigns()
 
         binding.fabNewCampaign.setOnClickListener { showCreateCampaignDialog() }
-        binding.btnStatistics.setOnClickListener {
-            startActivity(Intent(this, StatisticsActivity::class.java))
-        }
-        binding.btnSignOut.setOnClickListener {
-            authManager.signOut()
-            startActivity(Intent(this, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            })
-        }
     }
 
     // -----------------------------------------------------------------------
@@ -55,6 +47,22 @@ class AdminMainActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
+        
+        // Set up toolbar buttons
+        val btnStatistics = binding.toolbar.findViewById<ImageButton>(R.id.btnStatistics)
+        val btnSignOut = binding.toolbar.findViewById<ImageButton>(R.id.btnSignOut)
+        
+        btnStatistics?.setOnClickListener {
+            startActivity(Intent(this, StatisticsActivity::class.java))
+        }
+        
+        btnSignOut?.setOnClickListener {
+            authManager.signOut()
+            startActivity(Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+            finish()
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -107,7 +115,6 @@ class AdminMainActivity : AppCompatActivity() {
         val dialog = AlertDialog.Builder(this)
             .setView(dialogBinding.root)
             .create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialogBinding.btnCancel.setOnClickListener { dialog.dismiss() }
 

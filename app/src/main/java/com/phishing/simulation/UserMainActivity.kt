@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -76,16 +77,20 @@ class UserMainActivity : AppCompatActivity() {
         loadCampaigns()
         
         binding.btnOpenLink.setOnClickListener { handlePhishingLinkClick() }
-        binding.btnSignOut.setOnClickListener {
-            authManager.signOut()
-            startActivity(Intent(this, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            })
-        }
     }
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
+        
+        // Set up sign out button
+        val btnSignOut = binding.toolbar.findViewById<ImageButton>(R.id.btnSignOut)
+        btnSignOut?.setOnClickListener {
+            authManager.signOut()
+            startActivity(Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+            finish()
+        }
     }
 
     private fun loadCampaigns() {

@@ -63,9 +63,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:contentPadding="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                app:contentPadding="24dp"
                 android:visibility="gone">
 
                 <LinearLayout
@@ -73,39 +74,66 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <!-- Badge -->
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/new_message"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorPrimary"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="16dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        android:backgroundTint="?attr/colorErrorContainer">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="6dp"
+                            android:text="@string/new_message"
+                            android:textAppearance="?attr/textAppearanceLabelLarge"
+                            android:textColor="?attr/colorOnErrorContainer"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Campaign Title -->
                     <TextView
                         android:id="@+id/tvCampaignTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginBottom="16dp"
                         android:text="Campaign Title"
-                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                        android:textAppearance="?attr/textAppearanceHeadlineMedium"
                         android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold" />
 
+                    <!-- Campaign Description -->
                     <TextView
                         android:id="@+id/tvCampaignDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="24dp"
                         android:text="Campaign description goes here..."
-                        android:textAppearance="?attr/textAppearanceBodyMedium"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:lineSpacingExtra="4dp" />
 
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="?attr/colorOutlineVariant" />
+
+                    <!-- Action Button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnOpenLink"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
                         android:text="@string/btn_view_details"
-                        app:icon="@android:drawable/ic_menu_view" />
+                        android:textSize="16sp"
+                        app:icon="@android:drawable/ic_menu_view"
+                        app:iconGravity="start"
+                        app:iconSize="24dp"
+                        app:cornerRadius="12dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
