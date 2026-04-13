@@ -55,6 +55,11 @@
             android:exported="false"
             android:parentActivityName=".UserMainActivity" />
 
+        <activity
+            android:name=".CaughtActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PhishingSimulationApp" />
+
         <!-- Legacy entry point (kept for reference) -->
         <activity
             android:name=".MainActivity"

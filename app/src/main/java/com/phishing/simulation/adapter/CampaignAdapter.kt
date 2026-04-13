@@ -11,7 +11,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class CampaignAdapter(
-    private val onDeleteClick: (Campaign) -> Unit
+    private val onDeleteClick: (Campaign) -> Unit,
+    private val onEditClick: (Campaign) -> Unit
 ) : ListAdapter<Campaign, CampaignAdapter.CampaignViewHolder>(DiffCallback) {
 
     private val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
@@ -39,6 +40,7 @@ class CampaignAdapter(
             binding.tvDepartment.text = campaign.department.ifEmpty { "All" }
             binding.tvCreatedAt.text = dateFormat.format(campaign.createdAt.toDate())
             binding.btnDelete.setOnClickListener { onDeleteClick(campaign) }
+            binding.btnEdit.setOnClickListener { onEditClick(campaign) }
         }
     }
 

@@ -70,7 +70,10 @@ class AdminMainActivity : AppCompatActivity() {
     // -----------------------------------------------------------------------
 
     private fun setupRecyclerView() {
-        adapter = CampaignAdapter(onDeleteClick = { campaign -> confirmDelete(campaign) })
+        adapter = CampaignAdapter(
+            onDeleteClick = { campaign -> confirmDelete(campaign) },
+            onEditClick = { campaign -> showEditCampaignDialog(campaign) }
+        )
         binding.rvCampaigns.layoutManager = LinearLayoutManager(this)
         binding.rvCampaigns.adapter = adapter
     }
@@ -111,6 +114,14 @@ class AdminMainActivity : AppCompatActivity() {
     // -----------------------------------------------------------------------
 
     private fun showCreateCampaignDialog() {
+        showCampaignDialog(null)
+    }
+
+    private fun showEditCampaignDialog(campaign: Campaign) {
+        showCampaignDialog(campaign)
+    }
+
+    private fun showCampaignDialog(existingCampaign: Campaign?) {
         val dialogBinding = DialogCreateCampaignBinding.inflate(layoutInflater)
         val dialog = AlertDialog.Builder(this)
             .setView(dialogBinding.root)
@@ -120,7 +131,17 @@ class AdminMainActivity : AppCompatActivity() {
         val departments = arrayOf("All", "IT", "HR", "Finance", "Marketing", "Sales", "Operations", "Engineering")
         val adapter = android.widget.ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, departments)
         dialogBinding.actvDepartment.setAdapter(adapter)
-        dialogBinding.actvDepartment.setText("All", false)
+
+        // If editing, pre-fill fields
+        if (existingCampaign != null) {
+            dialogBinding.etTitle.setText(existingCampaign.title)
+            dialogBinding.etBody.setText(existingCampaign.description)
+            dialogBinding.etUrl.setText(existingCampaign.landingPageUrl)
+            dialogBinding.actvDepartment.setText(existingCampaign.department.ifEmpty { "All" }, false)
+            dialogBinding.btnCreate.text = "Update"
+        } else {
+            dialogBinding.actvDepartment.setText("All", false)
+        }
 
         dialogBinding.btnCancel.setOnClickListener { dialog.dismiss() }
 
@@ -137,12 +158,13 @@ class AdminMainActivity : AppCompatActivity() {
 
             val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email ?: "unknown"
             val campaign = Campaign(
+                id = existingCampaign?.id ?: "",
                 title = title,
                 description = body,
                 landingPageUrl = url,
                 department = department,
-                createdBy = currentUserEmail,
-                createdAt = Timestamp.now()
+                createdBy = existingCampaign?.createdBy ?: currentUserEmail,
+                createdAt = existingCampaign?.createdAt ?: Timestamp.now()
             )
 
             lifecycleScope.launch {
@@ -150,7 +172,7 @@ class AdminMainActivity : AppCompatActivity() {
                     is Result.Success -> {
                         Toast.makeText(
                             this@AdminMainActivity,
-                            getString(R.string.campaign_created_success),
+                            if (existingCampaign != null) "Campaign updated!" else getString(R.string.campaign_created_success),
                             Toast.LENGTH_SHORT
                         ).show()
                         dialog.dismiss()

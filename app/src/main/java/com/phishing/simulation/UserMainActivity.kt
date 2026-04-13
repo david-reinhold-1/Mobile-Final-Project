@@ -287,21 +287,15 @@ class UserMainActivity : AppCompatActivity() {
         val url = campaign.landingPageUrl
 
         if (url.isBlank()) {
-            Toast.makeText(this@UserMainActivity, "Campaign URL is empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Campaign URL is empty", Toast.LENGTH_SHORT).show()
             return
         }
         
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(
-                this@UserMainActivity,
-                "Failed to open link: ${e.message}",
-                Toast.LENGTH_LONG
-            ).show()
-            Log.e(TAG, "Failed to open phishing link", e)
+        // Show the "You've been caught!" screen
+        val intent = Intent(this, CaughtActivity::class.java).apply {
+            putExtra(CaughtActivity.EXTRA_PHISHING_URL, url)
         }
+        startActivity(intent)
     }
 
     private fun setLoading(loading: Boolean) {

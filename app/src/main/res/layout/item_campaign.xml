@@ -37,6 +37,16 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEdit"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/cd_edit_campaign"
+                app:icon="@android:drawable/ic_menu_edit"
+                app:iconTint="?attr/colorPrimary"
+                app:iconSize="24dp" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"
                 style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="48dp"

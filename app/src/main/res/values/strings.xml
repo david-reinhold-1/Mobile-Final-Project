@@ -46,6 +46,7 @@
 
     <!-- Content descriptions -->
     <string name="cd_new_campaign">Create new campaign</string>
+    <string name="cd_edit_campaign">Edit campaign</string>
     <string name="cd_delete_campaign">Delete campaign</string>
 
     <!-- User page -->
