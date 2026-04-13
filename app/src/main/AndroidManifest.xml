@@ -40,6 +40,11 @@
             android:name=".UserMainActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".StatisticsActivity"
+            android:exported="false"
+            android:parentActivityName=".AdminMainActivity" />
+
         <!-- Legacy entry point (kept for reference) -->
         <activity
             android:name=".MainActivity"
