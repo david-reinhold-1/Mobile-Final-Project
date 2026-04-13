@@ -13,8 +13,19 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/user_dashboard"
-            app:menu="@menu/menu_user" />
+            app:title="@string/user_dashboard">
+            
+            <ImageButton
+                android:id="@+id/btnSignOut"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/btn_sign_out"
+                android:src="@android:drawable/ic_lock_power_off"
+                android:padding="12dp" />
+        </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView

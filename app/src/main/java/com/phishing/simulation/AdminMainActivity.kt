@@ -38,6 +38,15 @@ class AdminMainActivity : AppCompatActivity() {
         observeCampaigns()
 
         binding.fabNewCampaign.setOnClickListener { showCreateCampaignDialog() }
+        binding.btnStatistics.setOnClickListener {
+            startActivity(Intent(this, StatisticsActivity::class.java))
+        }
+        binding.btnSignOut.setOnClickListener {
+            authManager.signOut()
+            startActivity(Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -46,45 +55,6 @@ class AdminMainActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
-        
-        binding.toolbar.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_statistics -> {
-                    startActivity(Intent(this, StatisticsActivity::class.java))
-                    true
-                }
-                R.id.action_sign_out -> {
-                    authManager.signOut()
-                    startActivity(Intent(this, LoginActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    })
-                    true
-                }
-                else -> false
-            }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_admin, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_statistics -> {
-                startActivity(Intent(this, StatisticsActivity::class.java))
-                true
-            }
-            R.id.action_sign_out -> {
-                authManager.signOut()
-                startActivity(Intent(this, LoginActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                })
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     // -----------------------------------------------------------------------

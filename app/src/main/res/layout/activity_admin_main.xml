@@ -14,7 +14,36 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/admin_dashboard" />
+            app:title="@string/admin_dashboard">
+            
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                
+                <ImageButton
+                    android:id="@+id/btnStatistics"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/statistics"
+                    android:src="@android:drawable/ic_menu_report_image"
+                    android:padding="12dp" />
+                
+                <ImageButton
+                    android:id="@+id/btnSignOut"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/btn_sign_out"
+                    android:src="@android:drawable/ic_lock_power_off"
+                    android:padding="12dp" />
+            </LinearLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Content -->
