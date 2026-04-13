@@ -248,8 +248,47 @@ class FirebaseRepository {
                 val campaigns = snapshot?.toObjects(Campaign::class.java) ?: emptyList()
                 trySend(Result.Success(campaigns))
             }
-        // Remove the listener when the Flow collector is cancelled
         awaitClose { registration.remove() }
+    }
+
+    /**
+     * Fetches all detections for a specific campaign.
+     * 
+     * @param campaignId The ID of the campaign to fetch detections for.
+     * @return [Result.Success] with a list of [Detection] objects.
+     */
+    suspend fun getDetectionsByCampaign(campaignId: String): Result<List<Detection>> {
+        return try {
+            val snapshot = detectionsCol
+                .whereEqualTo("CampaignId", campaignId)
+                .orderBy("Timestamp", Query.Direction.DESCENDING)
+                .get()
+                .await()
+            val detections = snapshot.toObjects(Detection::class.java)
+            Result.Success(detections)
+        } catch (e: Exception) {
+            Log.e(TAG, "getDetectionsByCampaign failed for campaignId=$campaignId", e)
+            Result.Failure(e)
+        }
+    }
+
+    /**
+     * Fetches all detections across all campaigns.
+     * 
+     * @return [Result.Success] with a list of all [Detection] objects.
+     */
+    suspend fun getAllDetections(): Result<List<Detection>> {
+        return try {
+            val snapshot = detectionsCol
+                .orderBy("Timestamp", Query.Direction.DESCENDING)
+                .get()
+                .await()
+            val detections = snapshot.toObjects(Detection::class.java)
+            Result.Success(detections)
+        } catch (e: Exception) {
+            Log.e(TAG, "getAllDetections failed", e)
+            Result.Failure(e)
+        }
     }
 
     // -----------------------------------------------------------------------
