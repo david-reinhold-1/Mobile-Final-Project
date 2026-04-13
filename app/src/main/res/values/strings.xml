@@ -26,6 +26,7 @@
 
     <!-- Campaign list -->
     <string name="no_campaigns">No campaigns yet.\nTap + to create one.</string>
+    <string name="btn_view_statistics">View Statistics</string>
 
     <!-- Campaign creation dialog -->
     <string name="dialog_title_new_campaign">New Campaign</string>
@@ -45,4 +46,23 @@
     <!-- Content descriptions -->
     <string name="cd_new_campaign">Create new campaign</string>
     <string name="cd_delete_campaign">Delete campaign</string>
+
+    <!-- User page -->
+    <string name="no_campaigns_assigned">No campaigns assigned to you yet.</string>
+    <string name="new_message">NEW MESSAGE</string>
+    <string name="btn_view_details">View Details</string>
+    <string name="location_permission_required">Location permission is required to track security awareness.</string>
+    <string name="location_permission_denied">Location permission denied. Detection will be recorded without location.</string>
+    <string name="detection_recorded">Detection recorded successfully!</string>
+    <string name="detection_failed">Failed to record detection. Please try again.</string>
+
+    <!-- Statistics page -->
+    <string name="statistics">Statistics</string>
+    <string name="total_detections">Total Detections</string>
+    <string name="total_campaigns">Total Campaigns</string>
+    <string name="click_through_rate">Click-Through Rate</string>
+    <string name="detections_over_time">Detections Over Time</string>
+    <string name="campaign_performance">Campaign Performance</string>
+    <string name="no_data_available">No data available yet</string>
+    <string name="loading_statistics">Loading statistics…</string>
 </resources>
