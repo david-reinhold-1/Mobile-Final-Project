@@ -68,7 +68,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
+    // Google Play Services Location
+    implementation("com.google.android.gms:play-services-location:21.1.0")
+
     // Charts
-//    implementation("github.com/philjay/mpandroidchart:v3.1.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
