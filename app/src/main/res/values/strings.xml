@@ -33,6 +33,7 @@
     <string name="hint_campaign_title">Campaign Title</string>
     <string name="hint_campaign_body">Email Body / Description</string>
     <string name="hint_campaign_url">Phishing URL (https://…)</string>
+    <string name="hint_campaign_department">Target Department</string>
     <string name="btn_create_campaign">Create</string>
     <string name="campaign_created_success">Campaign created successfully!</string>
 

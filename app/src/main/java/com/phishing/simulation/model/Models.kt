@@ -60,6 +60,10 @@ data class Campaign(
     @set:PropertyName("LandingPageUrl")
     var landingPageUrl: String = "",
 
+    @get:PropertyName("Department")
+    @set:PropertyName("Department")
+    var department: String = "All",
+
     @get:PropertyName("CreatedBy")
     @set:PropertyName("CreatedBy")
     var createdBy: String = "",

@@ -252,6 +252,33 @@ class FirebaseRepository {
     }
 
     /**
+     * Returns a [Flow] that emits campaigns filtered by department.
+     * Campaigns with "All" department or matching the specified department are included.
+     *
+     * @param department The department to filter by.
+     * @return Flow of campaigns for the specified department.
+     */
+    fun getCampaignsByDepartment(department: String): Flow<Result<List<Campaign>>> = callbackFlow {
+        val registration = campaignsCol
+            .orderBy("CreatedAt", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(TAG, "getCampaignsByDepartment listener error", error)
+                    trySend(Result.Failure(error))
+                    return@addSnapshotListener
+                }
+                val allCampaigns = snapshot?.toObjects(Campaign::class.java) ?: emptyList()
+                // Filter: show campaigns with "All" department OR matching the user's department
+                val filteredCampaigns = allCampaigns.filter { campaign ->
+                    campaign.department.equals("All", ignoreCase = true) || 
+                    campaign.department.equals(department, ignoreCase = true)
+                }
+                trySend(Result.Success(filteredCampaigns))
+            }
+        awaitClose { registration.remove() }
+    }
+
+    /**
      * Fetches all detections for a specific campaign.
      * 
      * @param campaignId The ID of the campaign to fetch detections for.

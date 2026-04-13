@@ -116,12 +116,19 @@ class AdminMainActivity : AppCompatActivity() {
             .setView(dialogBinding.root)
             .create()
 
+        // Setup department dropdown
+        val departments = arrayOf("All", "IT", "HR", "Finance", "Marketing", "Sales", "Operations", "Engineering")
+        val adapter = android.widget.ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, departments)
+        dialogBinding.actvDepartment.setAdapter(adapter)
+        dialogBinding.actvDepartment.setText("All", false)
+
         dialogBinding.btnCancel.setOnClickListener { dialog.dismiss() }
 
         dialogBinding.btnCreate.setOnClickListener {
             val title = dialogBinding.etTitle.text.toString().trim()
             val body = dialogBinding.etBody.text.toString().trim()
             val url = dialogBinding.etUrl.text.toString().trim()
+            val department = dialogBinding.actvDepartment.text.toString().trim().ifEmpty { "All" }
 
             if (!validateCampaignInputs(dialogBinding, title, body, url)) return@setOnClickListener
 
@@ -133,6 +140,7 @@ class AdminMainActivity : AppCompatActivity() {
                 title = title,
                 description = body,
                 landingPageUrl = url,
+                department = department,
                 createdBy = currentUserEmail,
                 createdAt = Timestamp.now()
             )

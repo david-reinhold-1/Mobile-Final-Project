@@ -36,6 +36,7 @@ class CampaignAdapter(
             binding.tvCampaignBody.text = campaign.description
             binding.tvCampaignUrl.text = campaign.landingPageUrl
             binding.tvCreatedBy.text = "By: ${campaign.createdBy}"
+            binding.tvDepartment.text = campaign.department.ifEmpty { "All" }
             binding.tvCreatedAt.text = dateFormat.format(campaign.createdAt.toDate())
             binding.btnDelete.setOnClickListener { onDeleteClick(campaign) }
         }

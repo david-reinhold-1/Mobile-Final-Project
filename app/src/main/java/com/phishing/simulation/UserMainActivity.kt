@@ -105,28 +105,54 @@ class UserMainActivity : AppCompatActivity() {
     private fun loadCampaigns() {
         setLoading(true)
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                repository.getAllCampaigns().collect { result ->
-                    setLoading(false)
-                    when (result) {
-                        is Result.Success -> {
-                            if (result.data.isNotEmpty()) {
-                                adapter.submitList(result.data)
-                                binding.rvCampaigns.visibility = View.VISIBLE
-                                binding.tvNoCampaigns.visibility = View.GONE
-                            } else {
-                                showNoCampaigns()
+            // First get the current user's department
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            if (userId == null) {
+                showNoCampaigns()
+                setLoading(false)
+                return@launch
+            }
+
+            // Get user profile to find department
+            when (val userResult = repository.getUserProfile(userId)) {
+                is Result.Success -> {
+                    val userDepartment = userResult.data?.department ?: "All"
+                    Log.d(TAG, "User department: $userDepartment")
+                    
+                    // Now load campaigns filtered by department
+                    repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        repository.getCampaignsByDepartment(userDepartment).collect { result ->
+                            setLoading(false)
+                            when (result) {
+                                is Result.Success -> {
+                                    if (result.data.isNotEmpty()) {
+                                        adapter.submitList(result.data)
+                                        binding.rvCampaigns.visibility = View.VISIBLE
+                                        binding.tvNoCampaigns.visibility = View.GONE
+                                    } else {
+                                        showNoCampaigns()
+                                    }
+                                }
+                                is Result.Failure -> {
+                                    Toast.makeText(
+                                        this@UserMainActivity,
+                                        "Error loading campaigns: ${result.exception.message}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    showNoCampaigns()
+                                }
                             }
                         }
-                        is Result.Failure -> {
-                            Toast.makeText(
-                                this@UserMainActivity,
-                                "Error loading campaigns: ${result.exception.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            showNoCampaigns()
-                        }
                     }
+                }
+                is Result.Failure -> {
+                    setLoading(false)
+                    Toast.makeText(
+                        this,
+                        "Error loading user profile: ${userResult.exception.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    showNoCampaigns()
                 }
             }
         }

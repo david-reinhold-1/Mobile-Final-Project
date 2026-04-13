@@ -109,6 +109,26 @@
                 app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
                 app:drawableTint="?attr/colorOnSurfaceVariant" />
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp"
+                android:backgroundTint="?attr/colorSecondaryContainer">
+
+                <TextView
+                    android:id="@+id/tvDepartment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="IT"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSecondaryContainer"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
             <TextView
                 android:id="@+id/tvCreatedAt"
                 android:layout_width="wrap_content"

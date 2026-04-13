@@ -109,6 +109,25 @@
                     android:maxLines="2" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Department Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDepartment"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/hint_campaign_department"
+                app:startIconDrawable="@android:drawable/ic_menu_my_calendar"
+                app:startIconTint="?attr/colorPrimary">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actvDepartment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:text="All" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!-- Action buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
